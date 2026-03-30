@@ -1,0 +1,2 @@
+$DOTFILES/borders/rc.sh=$DOTFILES/borders/bordersrc
+$DOTFILES/borders=$HOME/.config/borders

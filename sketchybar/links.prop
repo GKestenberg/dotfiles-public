@@ -1,0 +1,2 @@
+$DOTFILES/sketchybar/sketchybar.sh=$DOTFILES/sketchybar/sketchybarrc
+$DOTFILES/sketchybar=$HOME/.config/sketchybar

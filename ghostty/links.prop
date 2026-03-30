@@ -1,0 +1,3 @@
+$DOTFILES/ghostty/rc.sh=$HOME/.config/ghostty/config
+$DOTFILES/ghostty/themes=$HOME/.config/ghostty/themes
+$DOTFILES/ghostty/shaders=$HOME/.config/ghostty/shaders

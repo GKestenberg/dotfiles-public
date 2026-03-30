@@ -1,0 +1,292 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Jean-Tinland/simple-bar/refs/heads/master/lib/schemas/config.json",
+  "global": {
+    "theme": "dark",
+    "compactMode": true,
+    "floatingBar": false,
+    "noBarBg": false,
+    "noColorInData": false,
+    "bottomBar": false,
+    "sideDecoration": true,
+    "inlineSpacesOptions": false,
+    "disableAnimations": false,
+    "spacesBackgroundColorAsForeground": false,
+    "widgetsBackgroundColorAsForeground": false,
+    "widgetMaxWidth": "160px",
+    "slidingAnimationPace": 4,
+    "font": "JetBrains Mono, Monaco, Menlo, monospace",
+    "fontSize": "11px",
+    "yabaiPath": "/opt/homebrew/bin/yabai",
+    "aerospacePath": "$(which aerospace)",
+    "flashspacePath": "$(which flashspace)",
+    "windowManager": "yabai",
+    "shell": "zsh",
+    "terminal": "Ghostty",
+    "disableNotifications": false,
+    "enableMissives": false,
+    "enableServer": false,
+    "serverSocketPort": 7777,
+    "yabaiServerRefresh": false,
+    "aerospaceServerRefresh": false,
+    "flashspaceServerRefresh": false,
+    "useBackgroundColorAsForegroundForSpacesAndProcess": false,
+    "useBackgroundColorAsForegroundForWidgets": false,
+    "slidingAnimationSpeed": 4,
+    "disablePersistentAnimations": false
+  },
+  "themes": {
+    "lightTheme": "NightShiftLight",
+    "darkTheme": "NightShiftDark",
+    "colorMain": "#e2e2e3",
+    "colorMainAlt": "",
+    "colorMinor": "",
+    "colorAccent": "#76cce0",
+    "colorRed": "#fc5d7c",
+    "colorGreen": "#9ed072",
+    "colorYellow": "#e7c664",
+    "colorOrange": "#f39660",
+    "colorBlue": "#76cce0",
+    "colorMagenta": "#b39df3",
+    "colorCyan": "#76cce0",
+    "colorBlack": "#181819",
+    "colorWhite": "#e2e2e3",
+    "colorForeground": "#e2e2e3",
+    "colorBackground": "#000000"
+  },
+  "process": {
+    "showOnDisplay": "",
+    "displayForFocusedSpace": false,
+    "displayOnlyCurrent": false,
+    "centered": false,
+    "showCurrentSpaceMode": false,
+    "hideWindowTitle": false,
+    "displayOnlyIcon": false,
+    "expandAllProcesses": false,
+    "displaySkhdMode": false,
+    "displayStackIndex": true,
+    "displayOnlyCurrentStack": false,
+    "displayOnlyOnActiveSpace": false,
+    "displayOnlyCurrentProcessName": false,
+    "displayOnlyCenteredIconAndTitle": false,
+    "showStackIndex": true
+  },
+  "spacesDisplay": {
+    "showOnDisplay": "",
+    "exclusions": "",
+    "titleExclusions": "",
+    "spacesExclusions": "",
+    "exclusionsAsRegex": false,
+    "displayAllSpacesOnAllScreens": false,
+    "hideDuplicateAppsInSpaces": true,
+    "displayStickyWindowsSeparately": false,
+    "hideCreateSpaceButton": false,
+    "hideEmptySpaces": false,
+    "showOptionsOnHover": true,
+    "switchSpacesWithoutYabai": false,
+    "showOnlyFlashspaceSpaceIndex": false,
+    "hideFlashspaceAppIcons": false,
+    "customAeroSpaceDisplayIndexes": {}
+  },
+  "widgets": {
+    "processWidget": true,
+    "githubWidget": false,
+    "weatherWidget": true,
+    "netstatsWidget": false,
+    "cpuWidget": true,
+    "gpuWidget": false,
+    "memoryWidget": false,
+    "batteryWidget": true,
+    "wifiWidget": true,
+    "vpnWidget": false,
+    "zoomWidget": false,
+    "soundWidget": true,
+    "micWidget": false,
+    "dateWidget": true,
+    "timeWidget": true,
+    "keyboardWidget": false,
+    "spotifyWidget": false,
+    "cryptoWidget": false,
+    "stockWidget": false,
+    "youtubeMusicWidget": false,
+    "musicWidget": true,
+    "mpdWidget": false,
+    "browserTrackWidget": false,
+    "networkStatsWidget": true,
+    "networkWidget": false,
+    "viscosityVPNWidget": false,
+    "youtubeWidget": false
+  },
+  "githubWidgetOptions": {
+    "refreshFrequency": 600000,
+    "showOnDisplay": "",
+    "showIcon": true,
+    "hideWhenNoNotification": false,
+    "notificationUrl": "https://github.com/notifications",
+    "ghBinaryPath": "/opt/homebrew/bin/gh"
+  },
+  "weatherWidgetOptions": {
+    "refreshFrequency": 1800000,
+    "showOnDisplay": "",
+    "showIcon": true,
+    "unit": "F",
+    "hideLocation": true,
+    "hideGradient": false,
+    "customLocation": ""
+  },
+  "netstatsWidgetOptions": {
+    "refreshFrequency": 2000,
+    "showOnDisplay": "",
+    "showIcon": true,
+    "displayAsGraph": false
+  },
+  "cpuWidgetOptions": {
+    "refreshFrequency": 2000,
+    "showOnDisplay": "",
+    "showIcon": true,
+    "displayAsGraph": false,
+    "cpuMonitorApp": "Activity Monitor",
+    "showOnClickAction": "Activity Monitor"
+  },
+  "gpuWidgetOptions": {
+    "refreshFrequency": 3000,
+    "showOnDisplay": "",
+    "showIcon": true,
+    "displayAsGraph": false,
+    "gpuMacmonBinaryPath": "/opt/homebrew/bin/macmon"
+  },
+  "memoryWidgetOptions": {
+    "refreshFrequency": 4000,
+    "showOnDisplay": "",
+    "showIcon": true,
+    "memoryMonitorApp": "Activity Monitor"
+  },
+  "batteryWidgetOptions": {
+    "refreshFrequency": 10000,
+    "showOnDisplay": "",
+    "showIcon": true,
+    "toggleCaffeinateOnClick": true,
+    "disableCaffeinateInvertedBackground": false,
+    "caffeinateOption": "",
+    "inverseBackgroundOnCaffeinate": false
+  },
+  "networkWidgetOptions": {
+    "refreshFrequency": 20000,
+    "showOnDisplay": "",
+    "showIcon": true,
+    "networkDevice": "en0",
+    "hideWifiIfDisabled": false,
+    "toggleWifiOnClick": false,
+    "hideNetworkName": true
+  },
+  "vpnWidgetOptions": {
+    "refreshFrequency": 8000,
+    "showOnDisplay": "",
+    "showIcon": true,
+    "vpnConnectionName": "",
+    "vpnShowConnectionName": false
+  },
+  "zoomWidgetOptions": {
+    "refreshFrequency": 5000,
+    "showOnDisplay": "",
+    "showVideo": true,
+    "showMic": true
+  },
+  "soundWidgetOptions": {
+    "refreshFrequency": 2000,
+    "showOnDisplay": "",
+    "showIcon": true
+  },
+  "micWidgetOptions": {
+    "refreshFrequency": 20000,
+    "showOnDisplay": "",
+    "showIcon": true
+  },
+  "dateWidgetOptions": {
+    "refreshFrequency": 30000,
+    "showOnDisplay": "",
+    "showIcon": false,
+    "shortDateFormat": true,
+    "locale": "en-US",
+    "calendarApp": "Calendar"
+  },
+  "timeWidgetOptions": {
+    "refreshFrequency": 1000,
+    "showOnDisplay": "",
+    "showIcon": false,
+    "hour12": false,
+    "dayProgress": false,
+    "showSeconds": false
+  },
+  "keyboardWidgetOptions": {
+    "refreshFrequency": 20000,
+    "showOnDisplay": "",
+    "showIcon": true
+  },
+  "cryptoWidgetOptions": {
+    "refreshFrequency": 300000,
+    "showOnDisplay": "",
+    "showIcon": true,
+    "denomination": "usd",
+    "identifiers": "bitcoin,ethereum,celo",
+    "precision": 5
+  },
+  "stockWidgetOptions": {
+    "refreshFrequency": 900000,
+    "showOnDisplay": "",
+    "showIcon": true,
+    "yahooFinanceApiKey": "YOUR_API_KEY",
+    "symbols": "AAPL,TSLA",
+    "showSymbol": true,
+    "showCurrency": true,
+    "showMarketPrice": true,
+    "showMarketChange": false,
+    "showMarketPercent": true,
+    "showColor": true
+  },
+  "spotifyWidgetOptions": {
+    "refreshFrequency": 10000,
+    "showOnDisplay": "",
+    "showIcon": true,
+    "showSpecter": true,
+    "showSpotifyMetadata": true
+  },
+  "youtubeMusicWidgetOptions": {
+    "refreshFrequency": 10000,
+    "showOnDisplay": "",
+    "showIcon": true,
+    "showSpecter": true,
+    "youtubeMusicPort": 26538
+  },
+  "musicWidgetOptions": {
+    "refreshFrequency": 10000,
+    "showOnDisplay": "",
+    "showIcon": true,
+    "showSpecter": true
+  },
+  "mpdWidgetOptions": {
+    "refreshFrequency": 10000,
+    "showOnDisplay": "",
+    "showIcon": true,
+    "showSpecter": true,
+    "mpdBinaryPath": "/opt/homebrew/bin/mpc",
+    "mpdPort": "6600",
+    "mpdHost": "127.0.0.1",
+    "mpdFormatString": "%title%[ - %artist%]|[%file%]"
+  },
+  "browserTrackWidgetOptions": {
+    "refreshFrequency": 10000,
+    "showOnDisplay": "",
+    "showIcon": true,
+    "showSpecter": true
+  },
+  "userWidgets": [],
+  "customStyles": {
+    "styles": "/* Custom styles to match sketchybar theme */\n.simple-bar {\n  background-color: #000000 !important;\n  height: 32px !important;\n  color: #e2e2e3 !important;\n}\n\n.simple-bar--spaces {\n  background-color: #000000 !important;\n  height: 32px !important;\n}\n\n.simple-bar--data {\n  height: 32px !important;\n  color: #e2e2e3 !important;\n}\n\n.time {\n  margin-right: 10px !important;\n}\n\n/* Spaces - default state */\n.space__inner {\n  background-color: #000000 !important;\n  border: 1px solid #7f8490 !important;\n  border-radius: 4px !important;\n  color: #e2e2e3 !important;\n  box-shadow: none !important;\n}\n\n/* Spaces - focused state */\n.space--focused .space__inner {\n  background-color: #000000 !important;\n  border: 1px solid #ffffff !important;\n  color: #e2e2e3 !important;\n}\n\n/* Data widgets */\n.data-widget {\n  background-color: #000000 !important;\n  border: 1px solid #7f8490 !important;\n  border-radius: 4px !important;\n  color: #e2e2e3 !important;\n}\n\n/* Process widget */\n.process__window {\n  background-color: #000000 !important;\n  border: 1px solid #7f8490 !important;\n  border-radius: 4px !important;\n  color: #e2e2e3 !important;\n  box-shadow: none !important;\n}\n\n/* Process focused state */\n.process__window--focused {\n  background-color: #000000 !important;\n  border: 1px solid #ffffff !important;\n  color: #e2e2e3 !important;\n}\n\n/* White text/icons for all data widgets */\n.simple-bar--data * {\n  color: #e2e2e3 !important;\n  fill: #e2e2e3 !important;\n}\n\n/* Space icons */\n.space__icon {\n  fill: #e2e2e3 !important;\n  opacity: 0.7 !important;\n}\n\n.space--focused .space__icon {\n  opacity: 1 !important;\n}"
+  },
+  "networkStatsWidgetOptions": {
+    "refreshFrequency": 2000,
+    "showOnDisplay": "",
+    "showIcon": true,
+    "displayAsGraph": false
+  }
+}

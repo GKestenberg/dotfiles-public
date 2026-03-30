@@ -1,0 +1,2 @@
+$DOTFILES/skhd/rc.sh=$DOTFILES/skhd/skhdrc
+$DOTFILES/skhd=$HOME/.config/skhd

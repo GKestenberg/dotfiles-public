@@ -39,5 +39,10 @@ sbar.add("bracket", { cal.name }, {
 sbar.add("item", { position = "right", width = settings.group_paddings })
 
 cal:subscribe({ "forced", "routine", "system_woke" }, function(env)
-	cal:set({ icon = os.date("%a. %d %b"), label = os.date("%H:%M") })
+	sbar.exec("date '+%a. %d %b'", function(result)
+		cal:set({ icon = result:gsub("%s+$", "") })
+	end)
+	sbar.exec("date +%H:%M", function(result)
+		cal:set({ label = result:gsub("%s+$", "") })
+	end)
 end)

@@ -5,6 +5,7 @@ vim.api.nvim_create_user_command("Pwdc", function()
 		return
 	end
 
-	vim.fn.setreg("+", filepath)
-	print("Copied to clipboard: " .. filepath)
+	local relative = filepath:match(".*/workstation/(.+)$") or filepath
+	vim.fn.setreg("+", relative)
+	print("Copied to clipboard: " .. relative)
 end, {})

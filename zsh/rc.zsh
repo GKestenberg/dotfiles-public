@@ -29,6 +29,7 @@ source_if_exists "$DOTFILES"/zsh/compdef.zsh
 source_if_exists "$DOTFILES"/zsh/omz.zsh
 source_if_exists "$DOTFILES"/zsh/porter.zsh
 source_if_exists "$DOTFILES"/zsh/gt-compdef.zsh
+source_if_exists "$DOTFILES"/zsh/func_git_worktree.zsh
 source_if_exists "$HOME/.sdkman/bin/sdkman-init.sh"
 
 [[ -s "/Users/giladkestenberg/.gvm/scripts/gvm" ]] && source "/Users/giladkestenberg/.gvm/scripts/gvm"

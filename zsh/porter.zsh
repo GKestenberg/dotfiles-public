@@ -41,5 +41,8 @@ alias plint="GOWORK=off golangci-lint run -c ../.github/golangci-lint.yaml --new
 alias t_gen="task generate > /dev/null 2>&1 &"
 
 rm_porter_policies() {
-  uv run --script "./scripts/rm_porter_policies.py" "$@"
+  uv run --script "$HOME/.config/zsh/scripts/rm_porter_policies.py" "$@"
+}
+k8s_dockerhub() {
+  uv run --script "$HOME/.config/zsh/scripts/k8s_dockerhub.py" "$@"
 }

@@ -1,3 +1,6 @@
+# This file is pretty customizable, you should probably delete it, although some
+# of these exports are neccessary for my setup.
+
 export PATH=$HOME/.pub-cache/bin:$PATH
 export PATH=$HOME/development/flutter/bin:$PATH
 export PATH=$HOME/Library/Python/3.11/bin:$PATH
@@ -32,3 +35,5 @@ export GOOSE_DRIVER=postgres GOOSE_DBSTRING="postgresql://porter:porter@localhos
 
 export ENABLE_LSP_TOOL=1
 export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
+
+export AWS_PROFILE="Product_Engineering-072956081382"

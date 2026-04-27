@@ -1,5 +1,5 @@
 add_newline = false
-format = "$directory${custom.branch}$character"
+format = "$directory${custom.branch}${custom.aws}$character"
 
 [directory]
 truncation_length = 2

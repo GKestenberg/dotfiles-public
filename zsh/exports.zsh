@@ -36,4 +36,4 @@ export GOOSE_DRIVER=postgres GOOSE_DBSTRING="postgresql://porter:porter@localhos
 export ENABLE_LSP_TOOL=1
 export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 
-export AWS_PROFILE="Product_Engineering-072956081382"
+export AWS_PROFILE="porter-dev"

@@ -12,7 +12,7 @@ fi
 # url by profile name (case-insensitive match on account id)
 lower=$(printf '%s' "$p" | tr '[:upper:]' '[:lower:]')
 case "$lower" in
-  *072956081382*)
+  *porter*)
     url="https://porter-run.awsapps.com/start/#/console?account_id=072956081382&referrer=accessPortal"
     ;;
   *)

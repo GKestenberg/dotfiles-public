@@ -39,3 +39,7 @@ alias gm="goose -dir zarf/database/migrations"
 alias plint="GOWORK=off golangci-lint run -c ../.github/golangci-lint.yaml --new-from-rev=origin/main"
 
 alias t_gen="task generate > /dev/null 2>&1 &"
+
+rm_porter_policies() {
+  uv run --script "./scripts/rm_porter_policies.py" "$@"
+}

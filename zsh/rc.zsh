@@ -11,8 +11,6 @@ source_if_exists () {
 source_if_exists "$HOME"/.env.sh
 source_if_exists "$DOTFILES"/zsh/welcome.zsh
 source_if_exists "$DOTFILES"/zsh/exports.zsh
-source_if_exists "$DOTFILES"/zsh/starship.zsh
-# source_if_exists "$DOTFILES"/zsh/p10k.zsh
 source_if_exists "$DOTFILES"/zsh/alias.zsh
 source_if_exists "$DOTFILES"/zsh/options.zsh
 source_if_exists "$DOTFILES"/zsh/fzf.zsh
@@ -21,6 +19,8 @@ source_if_exists "$DOTFILES"/zsh/eval.zsh
 source_if_exists "$DOTFILES"/zsh/porter_compdef.zsh
 source_if_exists "$DOTFILES"/zsh/compdef.zsh
 source_if_exists "$DOTFILES"/zsh/omz.zsh
+source_if_exists "$DOTFILES"/zsh/starship.zsh
+# source_if_exists "$DOTFILES"/zsh/p10k.zsh
 source_if_exists "$DOTFILES"/zsh/porter.zsh
 source_if_exists "$DOTFILES"/zsh/gt-compdef.zsh
 source_if_exists "$DOTFILES"/zsh/func_git_worktree.zsh

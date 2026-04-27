@@ -19,7 +19,7 @@ source_if_exists "$DOTFILES"/zsh/eval.zsh
 source_if_exists "$DOTFILES"/zsh/porter_compdef.zsh
 source_if_exists "$DOTFILES"/zsh/compdef.zsh
 source_if_exists "$DOTFILES"/zsh/omz.zsh
-source_if_exists "$DOTFILES"/zsh/starship.zsh
+source_if_exists "$DOTFILES"/zsh/prompt_theme.zsh
 # source_if_exists "$DOTFILES"/zsh/p10k.zsh
 source_if_exists "$DOTFILES"/zsh/porter.zsh
 source_if_exists "$DOTFILES"/zsh/gt-compdef.zsh

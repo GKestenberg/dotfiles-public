@@ -22,6 +22,8 @@ Usage:
 
 from __future__ import annotations
 
+from typing import cast
+
 import argparse
 import json
 import shutil
@@ -29,6 +31,7 @@ import subprocess
 import sys
 
 import anthropic
+from anthropic.types import ToolParam
 import httpx
 
 LINEAR_API = "https://api.linear.app/graphql"
@@ -314,7 +317,7 @@ def claude_match_issue(
     resp = client.messages.create(
         model=MODEL,
         max_tokens=512,
-        tools=[tool],
+        tools=[cast(ToolParam, tool)],
         tool_choice={"type": "tool", "name": "select_issue"},
         messages=[
             {
@@ -329,7 +332,8 @@ def claude_match_issue(
     )
     for block in resp.content:
         if block.type == "tool_use":
-            ident = block.input.get("identifier", "").strip()
+            inp = cast(dict, block.input)
+            ident = str(inp.get("identifier", "")).strip()
             for issue in issues:
                 if issue["identifier"] == ident:
                     return issue
@@ -371,7 +375,7 @@ def claude_summarize_pr(diff: str, anthropic_key: str) -> dict:
     resp = client.messages.create(
         model=MODEL,
         max_tokens=1024,
-        tools=[tool],
+        tools=[cast(ToolParam, tool)],
         tool_choice={"type": "tool", "name": "create_pr"},
         messages=[
             {
@@ -406,7 +410,7 @@ def claude_draft_issue(diff: str, anthropic_key: str) -> dict:
     resp = client.messages.create(
         model=MODEL,
         max_tokens=512,
-        tools=[tool],
+        tools=[cast(ToolParam, tool)],
         tool_choice={"type": "tool", "name": "draft_issue"},
         messages=[
             {

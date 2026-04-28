@@ -16,6 +16,13 @@ return {
 		end,
 	},
 	{
+		-- Detects PEP 723 inline script deps and points pyright at the uv venv
+		"linux-cultist/venv-selector.nvim",
+		dependencies = { "neovim/nvim-lspconfig" },
+		ft = "python",
+		opts = {},
+	},
+	{
 		-- Automatically generates folds
 		"kevinhwang91/nvim-ufo",
 		dependencies = { "kevinhwang91/promise-async", "neovim/nvim-lspconfig" },

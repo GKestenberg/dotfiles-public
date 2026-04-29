@@ -32,21 +32,6 @@ alias gs="git status"
 
 alias g_wt='cd $(git worktree list | fzf | awk "{print \$1}")'
 
-# Soft rebase to graphite parent
-gt_r() {
-  local parent=$(gt log --steps 1 2>/dev/null | grep -oE 'gk/[a-zA-Z0-9_-]+|main' | tail -1)
-  if [[ -z "$parent" ]]; then
-    echo "Could not determine parent branch"
-    return 1
-  fi
-  echo "Soft rebasing to: $parent"
-  git reset --soft "$parent"
-}
-
-alias gtl="gt log short --no-interactive"
-alias gtc="gt checkout"
-alias gts="gt submit --stack --ai"
-
 ghpr() {
   gh pr create --title "$1" --body "$2"
 }

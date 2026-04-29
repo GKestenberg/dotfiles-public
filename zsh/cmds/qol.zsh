@@ -1,4 +1,4 @@
-src() {
+source_zsh() {
     local query="${1%.zsh}"
     local file
 

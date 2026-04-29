@@ -143,12 +143,16 @@ flutter-watch(){
   select-pane -t 0 \;
 }
 
+
 alias cl="clear"
-alias ls="eza --icons=auto"
+
+EZA_IGNORE='node_modules|__pycache__|.venv|venv|.mypy_cache|.pytest_cache|.ruff_cache|.next|.turbo|dist|build|target|.terraform|.DS_Store|*.pyc|*.pyo'
+alias ls="eza --icons=auto --git-ignore -I '$EZA_IGNORE'"
 alias la="eza --icons=auto -alf"
 alias ll="eza --icons=auto -a"
-alias lt="eza --icons=auto --tree"
-alias lT="eza --icons=auto --tree -D"
+alias lt="eza --icons=auto --git-ignore -I '$EZA_IGNORE' --tree"
+alias lT="eza --icons=auto --git-ignore -I '$EZA_IGNORE' --tree -D"
+
 alias bat="bat --style=plain"
 alias python="python3"
 alias ta="tmux attach -t"

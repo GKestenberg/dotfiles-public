@@ -40,9 +40,49 @@ alias plint="GOWORK=off golangci-lint run -c ../.github/golangci-lint.yaml --new
 
 alias t_gen="task generate > /dev/null 2>&1 &"
 
+function ts {
+  # Ensure exactly one argument is passed
+  if [ "$#" -ne 1 ]; then
+      echo "Usage: tsx <-|prod|it|.>"
+      echo "  -    - disable exit node"
+      echo "  prod - use prod exit node"
+      echo "  it   - use internal tools exit node"
+      echo "  .    - use work station exit node"
+      return 1
+  fi
+
+  # Map shorthand to exit node hostnames
+  case "$1" in
+    -)
+      tailscale set --exit-node=
+      echo "Exit node disabled"
+      ;;
+    prod)
+      tailscale set --exit-node=production
+      echo "Using prod exit node"
+      ;;
+    it)
+      tailscale set --exit-node=internal-tools-cluster-cqcrxf
+      echo "Using internal tools exit node"
+      ;;
+    .)
+      tailscale set --exit-node=porter-exit-node-us-east-2
+      echo "Using work station exit node"
+      ;;
+    *)
+      echo "Unknown option: $1"
+      echo "Usage: tsx <-|prod|it|.>"
+      return 1
+      ;;
+  esac
+}\
+
+# Gilad Scripts
+
 rm_porter_policies() {
   uv run --script "$HOME/.config/zsh/scripts/rm_porter_policies.py" "$@"
 }
 k8s_dockerhub() {
   uv run --script "$HOME/.config/zsh/scripts/k8s_dockerhub.py" "$@"
 }
+

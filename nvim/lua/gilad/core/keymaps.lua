@@ -69,11 +69,6 @@ SET_MAP("n", "<leader>li", ":LspInfo<CR>",               "[L]SP [I]nfo")
 SET_MAP("n", "<leader>lc", ":ConformInfo<CR>",           "[L]SP [C]onformInfo")
 SET_MAP("n", "<leader>ll", ":Lazy<CR>",                  "[L]azy")
 
-SET_MAP("n", "<leader>d", '"_d',                         "Delete without yanking")
-SET_MAP("n", "<leader>D", '"_D',                         "Delete to EOL without yanking")
-SET_MAP("n", "<leader>x", '"_x',                         "Delete without yanking")
-SET_MAP("n", "<leader>X", '"_X',                         "Delete to EOL without yanking")
-
 SET_MAP("i", "jk", "<Esc>",                              "Exit Insert Mode")
 
 SET_MAP("n", "<leader>ccc", ":CopilotChat<CR>",           "[C]opilot [C]hat")

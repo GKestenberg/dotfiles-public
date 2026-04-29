@@ -1,4 +1,4 @@
-vim.api.nvim_create_user_command("Pwdc", function()
+vim.api.nvim_create_user_command("Yp", function()
 	local filepath = vim.fn.expand("%:p")
 	if filepath == "" then
 		print("No file in current buffer")

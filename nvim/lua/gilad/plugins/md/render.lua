@@ -10,7 +10,7 @@ return {
 			file_types = { "markdown", "Avante" },
 			latex = { enabled = false },
 		},
-		dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" },
+		dependencies = { "echasnovski/mini.nvim" },
 		-- config = function(_, opts)
 		-- 	require("render-markdown").setup(opts)
 		-- end,

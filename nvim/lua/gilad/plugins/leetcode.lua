@@ -4,11 +4,8 @@ return {
 	"kawre/leetcode.nvim",
 	lazy = leet_arg ~= vim.fn.argv()[1],
 	cmd = "Leet",
-	build = ":TSUpdate html",
 	dependencies = {
 		"MunifTanjim/nui.nvim",
-
-		"nvim-treesitter/nvim-treesitter",
 		"nvim-tree/nvim-web-devicons",
 	},
 	opts = {

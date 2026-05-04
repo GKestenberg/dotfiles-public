@@ -61,7 +61,6 @@ return {
 	ft = "markdown",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
-		"nvim-treesitter/nvim-treesitter",
 	},
 	opts = {
 		ui = { enable = false },

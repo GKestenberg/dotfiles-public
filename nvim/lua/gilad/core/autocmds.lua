@@ -49,6 +49,15 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.filetype.add({ extension = { ejs = "html", mdx = "markdown", conf = "ini" } })
 
+-- Enable native treesitter highlighting for any filetype whose parser is
+-- available (Neovim 0.12 ships c, lua, vim, vimdoc, query, markdown,
+-- markdown_inline). Filetypes without a parser silently fall back to regex.
+vim.api.nvim_create_autocmd("FileType", {
+	callback = function(args)
+		pcall(vim.treesitter.start, args.buf)
+	end,
+})
+
 ---@param num number|nil
 local function setTabWidth(num)
 	if num == nil then

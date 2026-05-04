@@ -96,14 +96,5 @@ bg() {
 
 _PROMPT_DIR="${0:A:h}/.."
 
-g_c() {
-  uv run --script "${_PROMPT_DIR}/scripts/git_checkout.py" "$@"
-}
-_g_c() {
-  _arguments '1: :(-a --all)'
-}
-compdef _g_c g_c
-
-g_s() {
-    uv run --script "${_PROMPT_DIR}/scripts/git_submit.py" "$@"
-}
+alias g_c="gk git checkout"
+alias g_s="gk git submit"

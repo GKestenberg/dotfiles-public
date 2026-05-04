@@ -80,9 +80,9 @@ function ts {
 # Gilad Scripts
 
 rm_porter_policies() {
-  uv run --script "$HOME/.config/zsh/scripts/rm_porter_policies.py" "$@"
+  uv run --script "$DOTFILES/zsh/scripts/rm_porter_policies.py" "$@"
 }
 k8s_dockerhub() {
-  uv run --script "$HOME/.config/zsh/scripts/k8s_dockerhub.py" "$@"
+  uv run --script "$DOTFILES/zsh/scripts/k8s_dockerhub.py" "$@"
 }
 

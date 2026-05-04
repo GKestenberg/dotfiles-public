@@ -42,11 +42,11 @@ _prompt_render() {
 
   dir='%F{cyan}%2~%f'
 
-  git_line=$(uv run --script "$_PROMPT_GIT_PY" 2>/dev/null)
+  git_line=$("$_PROMPT_GIT_PY" 2>/dev/null)
   git=$(_prompt_render_segment "$git_line")
   [[ -n "$git" ]] && git=" %F{magenta}${git}%f"
 
-  aws_line=$(uv run --script "$_PROMPT_AWS_PY" 2>/dev/null)
+  aws_line=$("$_PROMPT_AWS_PY" 2>/dev/null)
   aws=$(_prompt_render_segment "$aws_line")
   [[ -n "$aws" ]] && aws=" %F{yellow}☁ ${aws}%f"
 

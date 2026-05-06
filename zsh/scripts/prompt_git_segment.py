@@ -1,4 +1,4 @@
-#!/usr/bin/env -S uv run --script
+#!/usr/bin/env python3
 # /// script
 # requires-python = ">=3.11"
 # ///
@@ -57,7 +57,7 @@ def maybe_refresh_cache(cache_path: Path, fetch_cmd: str) -> None:
     tmp = cache_path.with_suffix(".tmp")
     subprocess.Popen(
         [
-            "sh", "-c",
+            "zsh", "-f", "-c",
             f'{fetch_cmd} > {tmp!s} 2>/dev/null && mv {tmp!s} {cache_path!s}',
         ],
         stdin=devnull, stdout=devnull, stderr=devnull,

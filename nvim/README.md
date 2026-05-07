@@ -10,9 +10,4 @@ This is my Neovim configuration.
 - [plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
 - [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
 
-## snippets
-
-- [luasnip](https://github.com/L3MON4D3/LuaSnip)
-- [snippets](https://github.com/norcalli/snippets.nvim)
-
 ## statusline

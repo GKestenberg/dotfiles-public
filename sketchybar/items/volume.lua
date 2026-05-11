@@ -97,7 +97,7 @@ local function volume_collapse_details()
 		return
 	end
 	volume_bracket:set({ popup = { drawing = false } })
-	sbar.remove("/volume.device\\.*/")
+	sbar.remove("/volume\\.device\\..*/")
 end
 
 local current_audio_device = "None"
@@ -129,7 +129,7 @@ local function volume_toggle_details(env)
 						label = { string = device, color = color },
 						click_script = 'SwitchAudioSource -s "'
 							.. device
-							.. '" && sketchybar --set /volume.device\\.*/ label.color='
+							.. '" && sketchybar --set /volume\\.device\\..*/ label.color='
 							.. colors.grey
 							.. " --set $NAME label.color="
 							.. colors.white,

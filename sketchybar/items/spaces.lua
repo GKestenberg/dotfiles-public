@@ -134,8 +134,12 @@ space_window_observer:subscribe("space_windows_change", function(env)
 	if no_app then
 		icon_line = " —"
 	end
+	local space_idx = tonumber(env.INFO.space)
+	if not space_idx or not spaces[space_idx] then
+		return
+	end
 	sbar.animate("tanh", 10, function()
-		spaces[env.INFO.space]:set({ label = icon_line })
+		spaces[space_idx]:set({ label = icon_line })
 	end)
 end)
 

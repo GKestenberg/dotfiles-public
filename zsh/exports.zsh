@@ -14,12 +14,12 @@ export EDITOR='nvim'
 
 export BAT_THEME=Coldark-Dark
 
-if val=$(timeout 3s pass ai/anthropic/porter 2>/dev/null); then
-  export ANTHROPIC_API_KEY="$val"
-fi
-if val=$(timeout 3s pass ai/openai/personal 2>/dev/null); then
-  export OPENAI_API_KEY="$val"
-fi
+# if val=$(timeout 3s pass ai/anthropic/porter 2>/dev/null); then
+#   export ANTHROPIC_API_KEY="$val"
+# fi
+# if val=$(timeout 3s pass ai/openai/personal 2>/dev/null); then
+#   export OPENAI_API_KEY="$val"
+# fi
 
 export HOMEBREW_NO_INSTALL_CLEANUP=TRUE
 

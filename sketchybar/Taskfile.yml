@@ -1,0 +1,12 @@
+version: '3'
+
+tasks:
+  log:
+    desc: Tail sketchybar stdout / Lua log
+    cmds:
+      - tail -f /opt/homebrew/var/log/sketchybar/sketchybar.out.log
+
+  log:err:
+    desc: Tail sketchybar process-level error log
+    cmds:
+      - tail -f /opt/homebrew/var/log/sketchybar/sketchybar.err.log

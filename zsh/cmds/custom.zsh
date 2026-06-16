@@ -14,7 +14,7 @@ __COMMANDS=(
 "gf|git fetch"
 "glog|git log"
 "gp|git push"
-"gs|git status"
+"gs|git status --short"
 "la|ls -alf"
 "ll|ls -a"
 "lt|ls --tree"

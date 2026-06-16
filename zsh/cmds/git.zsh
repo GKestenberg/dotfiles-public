@@ -28,7 +28,7 @@ alias gdiff="git diff"
 alias gf="git fetch"
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias gp="git push"
-alias gs="git status"
+alias gs="git status --short"
 
 alias g_wt='cd $(git worktree list | fzf | awk "{print \$1}")'
 

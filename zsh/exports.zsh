@@ -30,3 +30,5 @@ export ENABLE_LSP_TOOL=1
 export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 
 export AWS_PROFILE="porter-dev"
+
+export PATH="$HOME/bin:$PATH"

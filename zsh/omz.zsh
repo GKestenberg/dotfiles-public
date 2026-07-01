@@ -6,7 +6,6 @@ if [ -z "$ZSH_COMPDUMP" ]; then
 fi
 
 export NVM_LAZY_LOAD=true
-# export NVM_COMPLETION=true
 
 plugins=(
     fast-syntax-highlighting

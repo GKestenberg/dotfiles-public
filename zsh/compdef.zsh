@@ -16,7 +16,8 @@ if [[ ! -f $COMPDIR/_gk ]] && command -v gk &>/dev/null; then
   gk completion zsh > $COMPDIR/_gk
 fi
 
-autoload -Uz compinit && compinit
+autoload -Uz compinit
+(( $+_comps )) || compinit
 
 if type brew &>/dev/null; then
   FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"

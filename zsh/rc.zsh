@@ -1,5 +1,4 @@
-autoload -Uz compinit
-compinit
+# zmodload zsh/zprof
 
 _source_if_exists () {
     if [[ -d "$1" ]]; then
@@ -12,19 +11,17 @@ _source_if_exists () {
 }
 export DOTFILES=/Users/giladkestenberg/dotfiles
 
+
 _source_if_exists "$DOTFILES"/zsh/exports.zsh
+_source_if_exists "$DOTFILES"/zsh/compdef.zsh
 _source_if_exists "$DOTFILES"/zsh/cmds
 _source_if_exists "$DOTFILES"/zsh/options.zsh
 _source_if_exists "$DOTFILES"/zsh/fzf.zsh
 _source_if_exists "$DOTFILES"/zsh/fzf-git.sh
 _source_if_exists "$DOTFILES"/zsh/eval.zsh
-_source_if_exists "$DOTFILES"/zsh/porter_compdef.zsh
-_source_if_exists "$DOTFILES"/zsh/compdef.zsh
 _source_if_exists "$DOTFILES"/zsh/omz.zsh
 _source_if_exists "$DOTFILES"/zsh/prompt_theme.zsh
 _source_if_exists "$DOTFILES"/zsh/porter.zsh
-_source_if_exists "$DOTFILES"/zsh/gt-compdef.zsh
 _source_if_exists "$DOTFILES"/zsh/local.zsh
-_source_if_exists "$HOME/.sdkman/bin/sdkman-init.sh"
 
-[[ -s "/Users/giladkestenberg/.gvm/scripts/gvm" ]] && source "/Users/giladkestenberg/.gvm/scripts/gvm"
+# zprof

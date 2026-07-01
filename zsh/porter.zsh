@@ -86,3 +86,8 @@ k8s_dockerhub() {
   uv run --script "$DOTFILES/zsh/scripts/k8s_dockerhub.py" "$@"
 }
 
+gvm() {
+  unfunction gvm
+  source "$HOME/.gvm/scripts/gvm"
+  gvm "$@"
+}

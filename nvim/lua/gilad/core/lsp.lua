@@ -47,9 +47,18 @@ vim.lsp.config["gopls"] = {
 	position_encoding = "utf-8",
 	settings = {
 		gopls = {
-			completeUnimported = true,
-			analyses = { unusedparams = true, ST1003 = false, ST1000 = false },
-			staticcheck = true,
+			directoryFilters = {
+				"-**/node_modules",
+				"-**/testdata", -- drop if you navigate into test fixtures
+				"-dashboard", -- non-Go frontend; adjust to your tree
+				"-bin",
+				"-dist",
+			},
+			staticcheck = false, -- see below
+			analyses = { unusedparams = true },
+			completionBudget = "100ms", -- time-box completion keystrokes
+			usePlaceholders = false,
+			semanticTokens = false,
 		},
 	},
 }

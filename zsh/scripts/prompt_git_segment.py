@@ -4,9 +4,12 @@
 # ///
 """Emit current git branch and a clickable URL.
 
-Output: <branch>\t<url>
+Output: <prefix>\t<text>\t<url>
+- <prefix> is plain (unlinked) text; <text> gets hyperlinked to <url>.
 - main/master  → cached `gh repo view --web` URL (the repo home)
 - other        → cached `gh pr view` URL (the PR for the branch)
+- If the upstream branch name differs from the local one, prefix is
+  "<local>:" and the linked text is the remote branch.
 - Empty output if not in a git repo.
 - URL field empty if cache miss; refreshes in the background.
 
@@ -17,6 +20,7 @@ from __future__ import annotations
 
 import hashlib
 import os
+import shlex
 import subprocess
 import time
 from pathlib import Path
@@ -72,6 +76,13 @@ def main() -> int:
 
     repo = run(["git", "config", "--get", "remote.origin.url"]) or ""
 
+    # Upstream branch name (without the remote prefix), if one is set.
+    upstream = run(
+        ["git", "rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{u}"]
+    )
+    remote_branch = upstream.split("/", 1)[1] if upstream and "/" in upstream else None
+
+    prefix, text = "", branch
     if branch in DEFAULT_BRANCHES:
         # Repo home page; cache key is per-repo only (branch-independent)
         key = hashlib.sha1(f"repo\n{repo}".encode()).hexdigest()[:16]
@@ -79,9 +90,12 @@ def main() -> int:
         # without --web (which would open the browser instead of printing).
         fetch_cmd = "gh repo view --json url -q .url"
     else:
-        # PR for this branch
-        key = hashlib.sha1(f"pr\n{repo}\n{branch}".encode()).hexdigest()[:16]
-        fetch_cmd = "gh pr view --json url -q .url"
+        # PR for this branch's upstream (falls back to the local name)
+        pr_branch = remote_branch or branch
+        key = hashlib.sha1(f"pr\n{repo}\n{pr_branch}".encode()).hexdigest()[:16]
+        fetch_cmd = f"gh pr view {shlex.quote(pr_branch)} --json url -q .url"
+        if remote_branch and remote_branch != branch:
+            prefix, text = f"{branch}:", remote_branch
 
     cache_path = cache_dir() / key
     maybe_refresh_cache(cache_path, fetch_cmd)
@@ -90,7 +104,7 @@ def main() -> int:
     if cache_path.exists():
         url = cache_path.read_text().strip()
 
-    print(f"{branch}\t{url}")
+    print(f"{prefix}\t{text}\t{url}")
     return 0
 
 

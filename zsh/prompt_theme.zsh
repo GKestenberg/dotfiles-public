@@ -19,14 +19,22 @@ _prompt_link() {
   printf '%%{\e]8;;%s\e\\%%}%s%%{\e]8;;\e\\%%}' "$url" "$text"
 }
 
-# Render a tab-separated "<text>\t<url>" line into a clickable PS1 string.
-# If url is empty, just emits text. If text is empty, emits nothing.
+# Render a tab-separated "<prefix>\t<text>\t<url>" line into a PS1 string.
+# <prefix> is emitted plain; <text> is hyperlinked to <url> when present.
+# Two-field lines ("<text>\t<url>") are handled with an empty prefix.
 _prompt_render_segment() {
   local line="$1"
   [[ -z "$line" ]] && return
-  local text="${line%%	*}"
-  local url="${line#*	}"
-  [[ -z "$text" ]] && return
+  local -a parts
+  parts=("${(@s:	:)line}")
+  local prefix text url
+  if (( ${#parts} >= 3 )); then
+    prefix="${parts[1]}" text="${parts[2]}" url="${parts[3]}"
+  else
+    prefix="" text="${parts[1]}" url="${parts[2]}"
+  fi
+  [[ -z "$prefix$text" ]] && return
+  printf '%s' "$prefix"
   if [[ -n "$url" && "$url" != "$text" ]]; then
     _prompt_link "$url" "$text"
   else

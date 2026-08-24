@@ -2,6 +2,7 @@ theme = Rose Pine
 # theme = Rose Pine Dawn
 
 custom-shader = ./shaders/cursor-blaze.glsl
+# custom-shader = ./shaders/gears-and-belts.glsl
 # custom-shader = ./shaders/starfield.glsl
 # custom-shader = ./shaders/drunkard.glsl
 # custom-shader = ./shaders/matrix.glsl
@@ -13,6 +14,16 @@ custom-shader = ./shaders/cursor-blaze.glsl
 
 clipboard-paste-protection = false
 window-save-state = always
+
+# notifications
+notify-on-command-finish = always
+notify-on-command-finish-action = bell,notify
+notify-on-command-finish-after = 10s
+
+# ui of tmux panes
+split-divider-color = #0f8
+unfocused-split-opacity = 0.5
+
 
 # Splitting
 keybind = ctrl+space>r=reload_config
@@ -30,3 +41,4 @@ keybind = option+l=goto_split:right
 keybind = ctrl+space>e=equalize_splits
 keybind = ctrl+space>enter=toggle_split_zoom
 keybind = shift+enter=text:\x1b\r
+

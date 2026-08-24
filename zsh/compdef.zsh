@@ -16,6 +16,10 @@ if [[ ! -f $COMPDIR/_gk ]] && command -v gk &>/dev/null; then
   gk completion zsh > $COMPDIR/_gk
 fi
 
+if [[ ! -f $COMPDIR/_gil ]] && command -v gil &>/dev/null; then
+    gil completion zsh > $COMPDIR/_gil
+fi
+
 autoload -Uz compinit
 (( $+_comps )) || compinit
 

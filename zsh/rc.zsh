@@ -25,3 +25,13 @@ _source_if_exists "$DOTFILES"/zsh/porter.zsh
 _source_if_exists "$DOTFILES"/zsh/local.zsh
 
 # zprof
+
+# pnpm
+export PNPM_HOME="/Users/giladkestenberg/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+esac
+# pnpm end
+
+export DEV_INSTANCE_BASE_PORT=18080

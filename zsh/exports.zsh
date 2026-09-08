@@ -11,6 +11,9 @@ export PATH=$PATH:$HOME/bin
 export PATH="/Users/giladkestenberg/.local/bin:$PATH"
 export PATH="$HOME/.grok/bin:$PATH"
 
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
 export EDITOR='nvim'
 
 export BAT_THEME=Coldark-Dark

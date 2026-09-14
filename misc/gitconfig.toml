@@ -1,0 +1,44 @@
+[credential "https://github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[user]
+	name = Gilad K
+	email = gk2610@columbia.edu
+[core]
+	pager = delta
+[color]
+	pager = false
+[pager]
+	diff = dunk | less -R
+[alias]
+	d = "!f() { git diff \"$@\" -- ':(exclude)package-lock.json' ':(exclude)pnpm-lock.yaml' ':(exclude)*.snap' | dunk | less -R; }; f"
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	side-by-side = true
+	line-numbers = true
+[merge]
+	conflictStyle = zdiff3
+[pull]
+	rebase = true
+[gc]
+	reflogExpire = never
+	reflogExpireUnreachable = never
+[branch]
+	autoSetupRebase = always
+[push]
+	autoSetupRemote = true
+	default = simple
+	followTags = true
+	useForceIfIncludes = true
+[rebase]
+	abbreviateCommands = true
+	autoSquash = true
+	autoStash = true
+[rerere]
+	autoUpdate = true
+	endabled = true

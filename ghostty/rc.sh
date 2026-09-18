@@ -1,5 +1,4 @@
-theme = Rose Pine
-# theme = Rose Pine Dawn
+theme = light:Rose Pine Dawn,dark:Rose Pine
 
 custom-shader = ./shaders/cursor-blaze.glsl
 # custom-shader = ./shaders/gears-and-belts.glsl

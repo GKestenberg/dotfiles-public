@@ -7,6 +7,8 @@ COMPDIR=~/.zsh/completions
 mkdir -p $COMPDIR
 fpath=($COMPDIR $fpath)
 
+fpath=(~/.grok/completions/zsh $fpath)
+
 # Generate completion once, only if it doesn't already exist
 if [[ ! -f $COMPDIR/_porter ]] && command -v porter &>/dev/null; then
   porter completion zsh > $COMPDIR/_porter
@@ -27,6 +29,7 @@ if type brew &>/dev/null; then
   FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 fi
 
+
 _complete_cmds() {
     local -a options=("sketch" "yabai")
 
@@ -37,5 +40,4 @@ _complete_cmds() {
 }
 compdef _complete_cmds start
 compdef _complete_cmds stop
-
 

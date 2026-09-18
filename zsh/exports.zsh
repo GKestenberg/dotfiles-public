@@ -9,6 +9,7 @@ export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export PATH=$PATH:$(go env GOPATH)/bin
 export PATH=$PATH:$HOME/bin
 export PATH="/Users/giladkestenberg/.local/bin:$PATH"
+export PATH="$HOME/.grok/bin:$PATH"
 
 export EDITOR='nvim'
 

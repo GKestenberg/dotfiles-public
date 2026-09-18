@@ -1,1 +1,2 @@
 $DOTFILES/misc/gitconfig.toml=$HOME/.gitconfig
+$DOTFILES/misc/diffignore=$HOME/.config/git/diffignore

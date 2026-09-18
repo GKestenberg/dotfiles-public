@@ -14,7 +14,7 @@
 [pager]
 	diff = dunk | less -R
 [alias]
-	d = "!f() { git diff \"$@\" -- ':(exclude)package-lock.json' ':(exclude)pnpm-lock.yaml' ':(exclude)*.snap' | dunk | less -R; }; f"
+	d = "!f() { set -f; IFS=\"\n\"; set -- \"$@\" -- $(sed -e '/^[[:space:]]*$/d' -e '/^#/d' -e '\\|/|!s|^|**/|' -e 's|^|:(exclude,glob)|' \"$HOME/.config/git/diffignore\" 2>/dev/null); unset IFS; set +f; git diff \"$@\" | dunk | less -R; }; f"
 [interactive]
 	diffFilter = delta --color-only
 [delta]

@@ -31,17 +31,26 @@ return {
 		end,
 	},
 	{
+		-- rustaceanvim owns rust-analyzer end to end; do NOT also enable
+		-- `rust_analyzer` in core/lsp.lua or two clients attach.
+		-- It is configured via `vim.g.rustaceanvim`, not lazy `opts`.
 		"mrcjkb/rustaceanvim",
 		version = "^5",
-		lazy = true,
-		ft = "rust",
-		["rust-analyzer"] = {
-			cargo = { allFeatures = true },
-			imports = { group = { enable = true } },
-			completion = { postfix = { enable = true } },
-			rustfmt = {},
-			overrideCommand = { "leptosfmt", "--stdin", "--rustfmt" },
-		},
+		lazy = false, -- plugin sets up its own `ft` autocmds
+		init = function()
+			vim.g.rustaceanvim = {
+				server = {
+					default_settings = {
+						["rust-analyzer"] = {
+							cargo = { allFeatures = true },
+							imports = { group = { enable = true } },
+							completion = { postfix = { enable = true } },
+							check = { command = "clippy" },
+						},
+					},
+				},
+			}
+		end,
 	},
 	{
 		"scalameta/nvim-metals",

@@ -36,3 +36,8 @@ esac
 
 # Unity CLI
 . "/Users/giladkestenberg/.unity/env"
+
+# >>> railway initialize >>>
+source "$HOME/.railway/env"
+# <<< railway initialize <<<
+export EDITOR=${EDITOR:-nvim}

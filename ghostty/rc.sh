@@ -1,4 +1,5 @@
 theme = light:Rose Pine Dawn,dark:Rose Pine
+window-theme = auto
 
 custom-shader = ./shaders/cursor-blaze.glsl
 # custom-shader = ./shaders/gears-and-belts.glsl

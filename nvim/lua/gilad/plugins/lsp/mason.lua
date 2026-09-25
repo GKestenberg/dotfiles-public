@@ -4,10 +4,6 @@ return {
 		"williamboman/mason.nvim",
 		event = "VeryLazy",
 		opts = {
-			ensure_installed = {
-				"gopls",
-				"tilt",
-			},
 			ui = {
 				icons = {
 					package_installed = "✓",
@@ -18,7 +14,9 @@ return {
 		},
 	},
 	{
-		-- For Conform.nvim to do formatting
+		-- Installs everything enabled in core/lsp.lua, plus Conform.nvim's formatters.
+		-- Keep in sync with the `servers` list there; names here are mason package
+		-- names, which differ from lspconfig server names (rust-analyzer, not rust_analyzer).
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 		event = "VeryLazy",
 		dependencies = {
@@ -26,29 +24,44 @@ return {
 		},
 		opts = {
 			ensure_installed = {
+				-- Formatters / linters
 				"black",
 				"eslint_d",
 				"isort",
 				"prettier",
-				"pyright",
 				"stylua",
+				"ktlint",
+				"latexindent",
+				-- "shellharden",
 				-- Frontend
 				"tailwindcss-language-server",
 				"css-lsp",
 				"emmet-ls",
-				-- "shellharden",
-				"stylua",
-				-- "terraformls",
-				"ktlint",
-				-- "rust_analyzer",
-				"latexindent",
-				"clangd",
+				"html-lsp",
+				"svelte-language-server",
+				"graphql-language-service-cli",
+				"prisma-language-server",
 				-- Go
 				"gopls",
 				"gofumpt",
 				"goimports",
 				"goimports-reviser",
 				"golines",
+				-- Rust: rust-analyzer comes from rustup so its ABI matches the
+				-- toolchain; a mason copy would shadow it via the PATH prepend in
+				-- core/lsp.lua and break proc-macro expansion.
+				-- Python
+				"pyright",
+				-- Lua
+				"lua-language-server",
+				-- Systems / infra
+				"clangd",
+				"bash-language-server",
+				"terraform-ls",
+				"nil",
+				"tilt",
+				-- Haskell
+				"haskell-language-server",
 			},
 			auto_update = true,
 			run_on_start = true,

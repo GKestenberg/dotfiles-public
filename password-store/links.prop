@@ -1,0 +1,2 @@
+$DOTFILES/password-store/pass=$HOME/.local/bin/pass
+$DOTFILES/password-store/gpg-agent.conf=$HOME/.gnupg/gpg-agent.conf

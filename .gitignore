@@ -23,6 +23,8 @@ zsh/local.zsh
 !borders/
 !aerospace/
 !misc/
+!password-store/
+password-store/bin/
 
 !neofetch/
 

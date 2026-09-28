@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+#
+# `pass` wrapper: tells the Touch ID prompt what is being unlocked.
+#
+#   pass github                 ->  "Gilad Password Store" is trying to unlock github
+#   pass github --name CRM      ->  ... unlock github for CRM
+#   pass -c infra/foo --name=X  ->  ... unlock infra/foo for X
+#
+# How: gpg forwards $PINENTRY_USER_DATA to gpg-agent, which hands it to the
+# pinentry program's environment. Our patched pinentry-touchid (see
+# pinentry/build.sh) uses it as the dialog reason. `--name` is stripped before
+# the real `pass` sees the arguments; everything else passes through untouched.
+set -euo pipefail
+
+die() { echo "pass (wrapper): $*" >&2; exit 1; }
+
+# The real `pass`: first one in PATH that is not this script.
+find_real_pass() {
+  local me candidate
+  me=$(readlink -f "${BASH_SOURCE[0]}")
+  while IFS= read -r candidate; do
+    [[ $(readlink -f "$candidate") == "$me" ]] && continue
+    printf '%s\n' "$candidate"
+    return 0
+  done < <(type -aP pass)
+  return 1
+}
+
+real_pass=$(find_real_pass) || die "real pass binary not found in PATH"
+
+app=""
+args=()
+while (($#)); do
+  case $1 in
+    --name)
+      (($# >= 2)) || die "--name requires a value"
+      app=$2; shift 2 ;;
+    --name=*)
+      app=${1#--name=}; shift ;;
+    *)
+      args+=("$1"); shift ;;
+  esac
+done
+
+# Entry = first positional arg after an optional subcommand word.
+entry=""
+skip_subcmd=1
+for a in ${args[@]+"${args[@]}"}; do
+  [[ $a == -* ]] && continue
+  if ((skip_subcmd)); then
+    skip_subcmd=0
+    case $a in
+      init|ls|list|grep|find|search|show|insert|add|edit|generate|rm|remove|delete|mv|rename|cp|copy|git|help|version|otp)
+        continue ;;
+    esac
+  fi
+  entry=$a
+  break
+done
+
+# Who called us, when it is not just an interactive shell.
+caller=$(ps -o comm= -p "$PPID" 2>/dev/null || true)
+caller=${caller##*/}
+caller=${caller#-}
+case $caller in
+  zsh|bash|sh|fish|login|"") caller="" ;;
+esac
+
+if [[ -n $app || -z ${PINENTRY_USER_DATA:-} ]]; then
+  reason="unlock ${entry:-the password store}"
+  [[ -n $app ]] && reason+=" for $app"
+  [[ -n $caller ]] && reason+=" (via $caller)"
+  export PINENTRY_USER_DATA="$reason"
+fi
+
+exec "$real_pass" ${args[@]+"${args[@]}"}

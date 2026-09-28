@@ -1,0 +1,21 @@
+diff --git a/main.go b/main.go
+index fe8c629..f357877 100644
+--- a/main.go
++++ b/main.go
+@@ -346,8 +346,15 @@ func GetPIN(authFn AuthFunc, promptFn PromptFunc, logger *log.Logger) GetPinFunc
+ 			return string(pin), nil
+ 		}
+ 
++		// PINENTRY_USER_DATA is forwarded by gpg -> gpg-agent -> pinentry. Callers
++		// (e.g. a `pass` wrapper) can set it to describe what is being unlocked.
++		reason := fmt.Sprintf("access the PIN for %s", keychainLabel)
++		if userData := strings.TrimSpace(os.Getenv("PINENTRY_USER_DATA")); userData != "" {
++			reason = userData
++		}
++
+ 		var ok bool
+-		if ok, err = authFn(fmt.Sprintf("access the PIN for %s", keychainLabel)); err != nil {
++		if ok, err = authFn(reason); err != nil {
+ 			logger.Printf("Error authenticating with Touch ID: %s", err)
+ 			return "", assuanError(err)
+ 		}

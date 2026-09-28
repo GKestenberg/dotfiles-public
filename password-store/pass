@@ -1,29 +1,7 @@
 #!/usr/bin/env bash
-#
-# `pass` wrapper: the Touch ID prompt shows the directory `pass` was run from.
-#
-#   (cd ~/projects && pass github)  ->  Unlock password-store for ~/projects
-#
-# gpg forwards $PINENTRY_USER_DATA to gpg-agent, which hands it to the pinentry
-# program's environment; the patched pinentry-touchid (pinentry/build.sh) uses
-# it verbatim as the dialog text. Everything else is plain `pass`: one approved
-# prompt unlocks the key for gpg-agent's cache TTL (see gpg-agent.conf).
-set -euo pipefail
-
-# The real `pass`: first one in PATH that is not this script.
-me=$(readlink -f "${BASH_SOURCE[0]}")
-real_pass=""
-while IFS= read -r candidate; do
-  [[ $(readlink -f "$candidate") == "$me" ]] && continue
-  real_pass=$candidate
-  break
-done < <(type -aP pass)
-[[ -n $real_pass ]] || { echo "pass (wrapper): real pass binary not found in PATH" >&2; exit 1; }
-
-if [[ -z ${PINENTRY_USER_DATA:-} ]]; then
-  location=$(pwd -P)
-  location=${location/#$HOME/\~}
-  export PINENTRY_USER_DATA="Unlock password-store for $location"
-fi
-
-exec "$real_pass" "$@"
+# `pass` wrapper: Touch ID prompt shows the directory pass was run from.
+# Needs the patched pinentry (pinentry/build.sh), which uses PINENTRY_USER_DATA as the dialog text.
+set -eu
+dir=$(pwd -P); dir=${dir/#$HOME/\~}
+export PINENTRY_USER_DATA="${PINENTRY_USER_DATA:-Unlock password-store for $dir}"
+exec /opt/homebrew/bin/pass "$@"

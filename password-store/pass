@@ -3,9 +3,11 @@
 # `pass` wrapper: makes the Touch ID prompt show the file being decrypted
 # plus any metadata given on the command line.
 #
-#   pass github              ->  Unlock password-store for ~/.password-store/github.gpg
-#   pass github --name CRM   ->  Unlock password-store for ~/.password-store/github.gpg (name: CRM)
-#   pass -c x --meta env=prod ->  Unlock password-store for ~/.password-store/x.gpg (env: prod)
+#   (cd ~/projects && pass github)            ->  Unlock password-store for ~/projects
+#   pass github --name CRM                    ->  Unlock password-store for ~/projects (name: CRM)
+#   pass -c x --meta env=prod                 ->  Unlock password-store for ~/projects (env: prod)
+#
+# The location is the directory `pass` was invoked from, not the .gpg file.
 #
 # How: gpg forwards $PINENTRY_USER_DATA to gpg-agent, which hands it to the
 # pinentry program's environment. Our patched pinentry-touchid (see
@@ -52,29 +54,8 @@ while (($#)); do
   esac
 done
 
-# Entry = first positional arg after an optional subcommand word.
-entry=""
-skip_subcmd=1
-for a in ${args[@]+"${args[@]}"}; do
-  [[ $a == -* ]] && continue
-  if ((skip_subcmd)); then
-    skip_subcmd=0
-    case $a in
-      init|ls|list|grep|find|search|show|insert|add|edit|generate|rm|remove|delete|mv|rename|cp|copy|git|help|version|otp)
-        continue ;;
-    esac
-  fi
-  entry=$a
-  break
-done
-
-# Absolute path of the file being decrypted, with $HOME shown as ~.
-store=${PASSWORD_STORE_DIR:-$HOME/.password-store}
-if [[ -n $entry ]]; then
-  location="$store/$entry.gpg"
-else
-  location="$store"
-fi
+# Where `pass` was run from, with $HOME shown as ~.
+location=$(pwd -P)
 location=${location/#$HOME/\~}
 
 if (( ${#meta[@]} > 0 )) || [[ -z ${PINENTRY_USER_DATA:-} ]]; then

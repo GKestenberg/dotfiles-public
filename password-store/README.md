@@ -1,11 +1,11 @@
 # password-store
 
-Touch ID prompts for `pass` that show the file being decrypted and any metadata.
+Touch ID prompts for `pass` that show where `pass` was run from and any metadata.
 
 ```
-pass github                          ->  Unlock password-store for ~/.password-store/github.gpg
-pass github --name CRM               ->  Unlock password-store for ~/.password-store/github.gpg (name: CRM)
-pass github --meta env=prod --name X ->  Unlock password-store for ~/.password-store/github.gpg (env: prod, name: X)
+(cd ~/projects && pass github)       ->  Unlock password-store for ~/projects
+pass github --name CRM               ->  Unlock password-store for ~/projects (name: CRM)
+pass github --meta env=prod --name X ->  Unlock password-store for ~/projects (env: prod, name: X)
 ```
 
 ## Pieces
@@ -42,4 +42,5 @@ the stored GPG PIN (login password, then "Always Allow").
   alone because `pass generate -n` means "no symbols".
 - If a caller sets `PINENTRY_USER_DATA` itself and passes no metadata, the
   wrapper keeps the caller's text.
-- The path honours `PASSWORD_STORE_DIR` and shows `$HOME` as `~`.
+- The path is the caller's working directory (physical, symlinks resolved),
+  with `$HOME` shown as `~`.

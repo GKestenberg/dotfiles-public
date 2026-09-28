@@ -32,7 +32,6 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 brew info pinentry-touchid
 echo "Set-Up Settings -> Touch ID & Password -> Add Fingerprint"
 echo "Set-Up Settings -> Control Center -> Automatically hide and show the menu bar"
-../password-store/pinentry/build.sh  # patched pinentry-touchid ("Gilad Password Store")
 
 # graphite
 gt completion --shell zsh >> ~/.gt-completion.zsh

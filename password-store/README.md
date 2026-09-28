@@ -1,5 +1,19 @@
 # password-store
 
+**Status: NOT ACTIVE.** `links.prop` is renamed `links.prop.disabled` so
+bootstrap skips it, and the installer does not run the build. The live setup
+is the stock Homebrew `pinentry-touchid` and the Homebrew `pass`.
+
+Known issue (2026-09-28): under gpg-agent the patched binary returned an empty
+passphrase (`gpg: decryption failed: No passphrase given`), while driving the
+same binary directly over Assuan (SETDESC/SETKEYINFO/GETPIN) worked and
+returned the PIN after Touch ID. Not yet root-caused; next step is enabling
+`log-file` + `debug-pinentry` in gpg-agent.conf to see what gpg-agent sends
+and receives.
+
+To enable: rename `links.prop.disabled` back to `links.prop`, run
+`scripts/bootstrap.sh`, then `pinentry/build.sh`.
+
 Touch ID prompts for `pass` that show the directory `pass` was run from.
 
 ```

@@ -50,8 +50,11 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.filetype.add({ extension = { ejs = "html", mdx = "markdown", conf = "ini" } })
 
 -- Enable native treesitter highlighting for any filetype whose parser is
--- available (Neovim 0.12 ships c, lua, vim, vimdoc, query, markdown,
--- markdown_inline). Filetypes without a parser silently fall back to regex.
+-- available. Neovim 0.12 bundles c, lua, vim, vimdoc, query, markdown and
+-- markdown_inline; extra parsers + queries live in
+-- stdpath("data")/site/{parser,queries} (bash, go, python, sql, tsx,
+-- typescript, yaml). nvim-treesitter was dropped (it needs the tree-sitter
+-- CLI at startup); filetypes without a parser fall back to regex syntax.
 vim.api.nvim_create_autocmd("FileType", {
 	callback = function(args)
 		pcall(vim.treesitter.start, args.buf)

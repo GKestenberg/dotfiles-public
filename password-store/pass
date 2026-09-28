@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # `pass` wrapper: Touch ID prompt shows the directory pass was run from.
-# Needs the patched pinentry (pinentry/build.sh), which uses PINENTRY_USER_DATA as the dialog text.
+# Needs the pinentry from build.sh, which uses PINENTRY_USER_DATA as the dialog text.
 set -eu
 dir=$(pwd -P); dir=${dir/#$HOME/\~}
 export PINENTRY_USER_DATA="${PINENTRY_USER_DATA:-Unlock password-store for $dir}"

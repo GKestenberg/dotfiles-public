@@ -1,71 +1,29 @@
 #!/usr/bin/env bash
 #
-# `pass` wrapper: makes the Touch ID prompt show the file being decrypted
-# plus any metadata given on the command line.
+# `pass` wrapper: the Touch ID prompt shows the directory `pass` was run from.
 #
-#   (cd ~/projects && pass github)            ->  Unlock password-store for ~/projects
-#   pass github --name CRM                    ->  Unlock password-store for ~/projects (name: CRM)
-#   pass -c x --meta env=prod                 ->  Unlock password-store for ~/projects (env: prod)
+#   (cd ~/projects && pass github)  ->  Unlock password-store for ~/projects
 #
-# The location is the directory `pass` was invoked from, not the .gpg file.
-#
-# How: gpg forwards $PINENTRY_USER_DATA to gpg-agent, which hands it to the
-# pinentry program's environment. Our patched pinentry-touchid (see
-# pinentry/build.sh) uses it verbatim as the dialog text. `--name X` and
-# `--meta k=v` (repeatable) are stripped before the real `pass` sees the
-# arguments; everything else passes through untouched.
+# gpg forwards $PINENTRY_USER_DATA to gpg-agent, which hands it to the pinentry
+# program's environment; the patched pinentry-touchid (pinentry/build.sh) uses
+# it verbatim as the dialog text. Everything else is plain `pass`: one approved
+# prompt unlocks the key for gpg-agent's cache TTL (see gpg-agent.conf).
 set -euo pipefail
 
-die() { echo "pass (wrapper): $*" >&2; exit 1; }
-
 # The real `pass`: first one in PATH that is not this script.
-find_real_pass() {
-  local me candidate
-  me=$(readlink -f "${BASH_SOURCE[0]}")
-  while IFS= read -r candidate; do
-    [[ $(readlink -f "$candidate") == "$me" ]] && continue
-    printf '%s\n' "$candidate"
-    return 0
-  done < <(type -aP pass)
-  return 1
-}
+me=$(readlink -f "${BASH_SOURCE[0]}")
+real_pass=""
+while IFS= read -r candidate; do
+  [[ $(readlink -f "$candidate") == "$me" ]] && continue
+  real_pass=$candidate
+  break
+done < <(type -aP pass)
+[[ -n $real_pass ]] || { echo "pass (wrapper): real pass binary not found in PATH" >&2; exit 1; }
 
-real_pass=$(find_real_pass) || die "real pass binary not found in PATH"
-
-meta=()   # "key: value" strings, in the order given
-args=()
-while (($#)); do
-  case $1 in
-    --name)
-      (($# >= 2)) || die "--name requires a value"
-      meta+=("name: $2"); shift 2 ;;
-    --name=*)
-      meta+=("name: ${1#--name=}"); shift ;;
-    --meta)
-      (($# >= 2)) || die "--meta requires key=value"
-      [[ $2 == *=* ]] || die "--meta expects key=value, got '$2'"
-      meta+=("${2%%=*}: ${2#*=}"); shift 2 ;;
-    --meta=*)
-      kv=${1#--meta=}
-      [[ $kv == *=* ]] || die "--meta expects key=value, got '$kv'"
-      meta+=("${kv%%=*}: ${kv#*=}"); shift ;;
-    *)
-      args+=("$1"); shift ;;
-  esac
-done
-
-# Where `pass` was run from, with $HOME shown as ~.
-location=$(pwd -P)
-location=${location/#$HOME/\~}
-
-if (( ${#meta[@]} > 0 )) || [[ -z ${PINENTRY_USER_DATA:-} ]]; then
-  reason="Unlock password-store for $location"
-  if (( ${#meta[@]} > 0 )); then
-    joined=""
-    for m in "${meta[@]}"; do joined+="${joined:+, }$m"; done
-    reason+=" ($joined)"
-  fi
-  export PINENTRY_USER_DATA="$reason"
+if [[ -z ${PINENTRY_USER_DATA:-} ]]; then
+  location=$(pwd -P)
+  location=${location/#$HOME/\~}
+  export PINENTRY_USER_DATA="Unlock password-store for $location"
 fi
 
-exec "$real_pass" ${args[@]+"${args[@]}"}
+exec "$real_pass" "$@"

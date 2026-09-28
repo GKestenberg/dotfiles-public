@@ -1,27 +1,28 @@
 # password-store
 
-Touch ID prompts for `pass` that show where `pass` was run from and any metadata.
+Touch ID prompts for `pass` that show the directory `pass` was run from.
 
 ```
-(cd ~/projects && pass github)       ->  Unlock password-store for ~/projects
-pass github --name CRM               ->  Unlock password-store for ~/projects (name: CRM)
-pass github --meta env=prod --name X ->  Unlock password-store for ~/projects (env: prod, name: X)
+(cd ~/projects && pass github)  ->  Unlock password-store for ~/projects
 ```
+
+Everything else is plain `pass`: one approved prompt unlocks the key for
+gpg-agent's cache TTL (`default-cache-ttl` / `max-cache-ttl` in
+`gpg-agent.conf`, currently 60s).
 
 ## Pieces
 
 | file | linked to | role |
 |------|-----------|------|
-| `pass` | `~/.local/bin/pass` | wrapper: strips `--name X` / `--meta k=v`, sets `PINENTRY_USER_DATA`, execs the Homebrew `pass` |
-| `gpg-agent.conf` | `~/.gnupg/gpg-agent.conf` | points `pinentry-program` at the patched binary |
+| `pass` | `~/.local/bin/pass` | wrapper: sets `PINENTRY_USER_DATA` to the cwd, execs the Homebrew `pass` |
+| `gpg-agent.conf` | `~/.gnupg/gpg-agent.conf` | TTLs, and `pinentry-program` pointing at the patched binary |
 | `pinentry/build.sh` | – | clones upstream pinentry-touchid at a pinned commit, applies the patch, builds `bin/Gilad Password Store` |
 | `pinentry/touchid-reason.patch` | – | makes the Touch ID reason come from `PINENTRY_USER_DATA` |
 | `bin/` | – | build output, gitignored |
 
-The channel is gpg's own: the `gpg` client forwards `PINENTRY_USER_DATA` to
-`gpg-agent`, which puts it in the pinentry's environment. `pass` itself is
-unmodified. The dialog's app name is the executable's file name, hence the
-binary is literally called `Gilad Password Store`.
+gpg forwards `PINENTRY_USER_DATA` from the calling process to `gpg-agent`,
+which puts it in the pinentry's environment. `pass` itself is unmodified. The
+dialog's app name is the executable's file name, hence `Gilad Password Store`.
 
 ## Setup
 
@@ -36,11 +37,7 @@ the stored GPG PIN (login password, then "Always Allow").
 
 ## Notes
 
-- Within `default-cache-ttl` (60s) gpg-agent does not call pinentry at all,
-  so a second `pass` call shortly after the first shows no prompt.
-- `--name` and `--meta` are the only flags the wrapper eats. `-n` is left
-  alone because `pass generate -n` means "no symbols".
-- If a caller sets `PINENTRY_USER_DATA` itself and passes no metadata, the
-  wrapper keeps the caller's text.
-- The path is the caller's working directory (physical, symlinks resolved),
-  with `$HOME` shown as `~`.
+- Anything that calls `pass` without `~/.local/bin` first in PATH bypasses
+  the wrapper and gets the stock text ("access the PIN for ...").
+- macOS shows one Touch ID dialog at a time; a new request cancels the one on
+  screen, and the cancelled `pass` fails with "No passphrase given".

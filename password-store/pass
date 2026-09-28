@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
 #
-# `pass` wrapper: tells the Touch ID prompt what is being unlocked.
+# `pass` wrapper: makes the Touch ID prompt show the file being decrypted
+# plus any metadata given on the command line.
 #
-#   pass github                 ->  "Gilad Password Store" is trying to unlock github
-#   pass github --name CRM      ->  ... unlock github for CRM
-#   pass -c infra/foo --name=X  ->  ... unlock infra/foo for X
+#   pass github              ->  Unlock password-store for ~/.password-store/github.gpg
+#   pass github --name CRM   ->  Unlock password-store for ~/.password-store/github.gpg (name: CRM)
+#   pass -c x --meta env=prod ->  Unlock password-store for ~/.password-store/x.gpg (env: prod)
 #
 # How: gpg forwards $PINENTRY_USER_DATA to gpg-agent, which hands it to the
 # pinentry program's environment. Our patched pinentry-touchid (see
-# pinentry/build.sh) uses it as the dialog reason. `--name` is stripped before
-# the real `pass` sees the arguments; everything else passes through untouched.
+# pinentry/build.sh) uses it verbatim as the dialog text. `--name X` and
+# `--meta k=v` (repeatable) are stripped before the real `pass` sees the
+# arguments; everything else passes through untouched.
 set -euo pipefail
 
 die() { echo "pass (wrapper): $*" >&2; exit 1; }
@@ -28,15 +30,23 @@ find_real_pass() {
 
 real_pass=$(find_real_pass) || die "real pass binary not found in PATH"
 
-app=""
+meta=()   # "key: value" strings, in the order given
 args=()
 while (($#)); do
   case $1 in
     --name)
       (($# >= 2)) || die "--name requires a value"
-      app=$2; shift 2 ;;
+      meta+=("name: $2"); shift 2 ;;
     --name=*)
-      app=${1#--name=}; shift ;;
+      meta+=("name: ${1#--name=}"); shift ;;
+    --meta)
+      (($# >= 2)) || die "--meta requires key=value"
+      [[ $2 == *=* ]] || die "--meta expects key=value, got '$2'"
+      meta+=("${2%%=*}: ${2#*=}"); shift 2 ;;
+    --meta=*)
+      kv=${1#--meta=}
+      [[ $kv == *=* ]] || die "--meta expects key=value, got '$kv'"
+      meta+=("${kv%%=*}: ${kv#*=}"); shift ;;
     *)
       args+=("$1"); shift ;;
   esac
@@ -58,18 +68,22 @@ for a in ${args[@]+"${args[@]}"}; do
   break
 done
 
-# Who called us, when it is not just an interactive shell.
-caller=$(ps -o comm= -p "$PPID" 2>/dev/null || true)
-caller=${caller##*/}
-caller=${caller#-}
-case $caller in
-  zsh|bash|sh|fish|login|"") caller="" ;;
-esac
+# Absolute path of the file being decrypted, with $HOME shown as ~.
+store=${PASSWORD_STORE_DIR:-$HOME/.password-store}
+if [[ -n $entry ]]; then
+  location="$store/$entry.gpg"
+else
+  location="$store"
+fi
+location=${location/#$HOME/\~}
 
-if [[ -n $app || -z ${PINENTRY_USER_DATA:-} ]]; then
-  reason="unlock ${entry:-the password store}"
-  [[ -n $app ]] && reason+=" for $app"
-  [[ -n $caller ]] && reason+=" (via $caller)"
+if (( ${#meta[@]} > 0 )) || [[ -z ${PINENTRY_USER_DATA:-} ]]; then
+  reason="Unlock password-store for $location"
+  if (( ${#meta[@]} > 0 )); then
+    joined=""
+    for m in "${meta[@]}"; do joined+="${joined:+, }$m"; done
+    reason+=" ($joined)"
+  fi
   export PINENTRY_USER_DATA="$reason"
 fi
 

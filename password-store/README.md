@@ -1,17 +1,18 @@
 # password-store
 
-Touch ID prompts for `pass` that say *what* is being unlocked and *for whom*.
+Touch ID prompts for `pass` that show the file being decrypted and any metadata.
 
 ```
-pass github                ->  "Gilad Password Store" is trying to unlock github
-pass github --name CRM     ->  "Gilad Password Store" is trying to unlock github for CRM
+pass github                          ->  Unlock password-store for ~/.password-store/github.gpg
+pass github --name CRM               ->  Unlock password-store for ~/.password-store/github.gpg (name: CRM)
+pass github --meta env=prod --name X ->  Unlock password-store for ~/.password-store/github.gpg (env: prod, name: X)
 ```
 
 ## Pieces
 
 | file | linked to | role |
 |------|-----------|------|
-| `pass` | `~/.local/bin/pass` | wrapper: strips `--name`, sets `PINENTRY_USER_DATA`, execs the Homebrew `pass` |
+| `pass` | `~/.local/bin/pass` | wrapper: strips `--name X` / `--meta k=v`, sets `PINENTRY_USER_DATA`, execs the Homebrew `pass` |
 | `gpg-agent.conf` | `~/.gnupg/gpg-agent.conf` | points `pinentry-program` at the patched binary |
 | `pinentry/build.sh` | – | clones upstream pinentry-touchid at a pinned commit, applies the patch, builds `bin/Gilad Password Store` |
 | `pinentry/touchid-reason.patch` | – | makes the Touch ID reason come from `PINENTRY_USER_DATA` |
@@ -37,7 +38,8 @@ the stored GPG PIN (login password, then "Always Allow").
 
 - Within `default-cache-ttl` (60s) gpg-agent does not call pinentry at all,
   so a second `pass` call shortly after the first shows no prompt.
-- `--name` is the only flag the wrapper eats. `-n` is left alone because
-  `pass generate -n` means "no symbols".
-- If a caller sets `PINENTRY_USER_DATA` itself and passes no `--name`, the
+- `--name` and `--meta` are the only flags the wrapper eats. `-n` is left
+  alone because `pass generate -n` means "no symbols".
+- If a caller sets `PINENTRY_USER_DATA` itself and passes no metadata, the
   wrapper keeps the caller's text.
+- The path honours `PASSWORD_STORE_DIR` and shows `$HOME` as `~`.

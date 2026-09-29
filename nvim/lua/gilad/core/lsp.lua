@@ -73,6 +73,7 @@ local servers = {
 	"graphql",
 	"svelte",
 	"gopls",
+	"sqls",
 	"cssls",
 	"hls",
 	"html",

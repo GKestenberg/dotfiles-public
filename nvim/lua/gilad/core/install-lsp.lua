@@ -9,6 +9,7 @@
 
 local go_tools = {
 	gopls = "golang.org/x/tools/gopls@latest",
+	sqls = "github.com/sqls-server/sqls@latest",
 }
 
 local gobin = os.getenv("GOBIN") or ((os.getenv("GOPATH") or vim.fn.expand("~/go")) .. "/bin")
@@ -39,8 +40,10 @@ local function go_install(name, pkg, on_done)
 	end)
 end
 
--- Always resolve gopls to GOBIN, regardless of what mason put on PATH.
-vim.lsp.config("gopls", { cmd = { bin("gopls") } })
+-- Always resolve these servers to GOBIN, regardless of what mason put on PATH.
+for name in pairs(go_tools) do
+	vim.lsp.config(name, { cmd = { bin(name) } })
+end
 
 -- Install missing tools once the UI is up; don't block startup.
 vim.defer_fn(function()

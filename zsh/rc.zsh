@@ -23,21 +23,3 @@ _source_if_exists "$DOTFILES"/zsh/omz.zsh
 _source_if_exists "$DOTFILES"/zsh/prompt_theme.zsh
 _source_if_exists "$DOTFILES"/zsh/porter.zsh
 _source_if_exists "$DOTFILES"/zsh/local.zsh
-
-# zprof
-
-# pnpm
-export PNPM_HOME="/Users/giladkestenberg/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME/bin:"*) ;;
-  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
-esac
-# pnpm end
-
-# Unity CLI
-. "/Users/giladkestenberg/.unity/env"
-
-# >>> railway initialize >>>
-source "$HOME/.railway/env"
-# <<< railway initialize <<<
-export EDITOR=${EDITOR:-nvim}

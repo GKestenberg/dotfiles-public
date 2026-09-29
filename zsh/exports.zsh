@@ -14,7 +14,7 @@ export PATH="$HOME/.grok/bin:$PATH"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-export EDITOR='nvim'
+export EDITOR=${EDITOR:-nvim}
 
 export BAT_THEME=Coldark-Dark
 

@@ -41,8 +41,9 @@ return {
 				"svelte-language-server",
 				"graphql-language-service-cli",
 				"prisma-language-server",
-				-- Go
-				"gopls",
+				-- Go: gopls is NOT here; core/install-lsp.lua builds it with
+				-- `go install` so it matches the local toolchain. A mason copy
+				-- would go stale and shadow it via the PATH prepend in core/lsp.lua.
 				"gofumpt",
 				"goimports",
 				"goimports-reviser",

@@ -3,5 +3,6 @@ require("gilad.core.commands")
 require("gilad.core.keymaps")
 require("gilad.core.options")
 require("gilad.core.lsp")
+require("gilad.core.install-lsp")
 
 require("gilad.lazy")

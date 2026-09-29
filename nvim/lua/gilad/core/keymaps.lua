@@ -64,8 +64,23 @@ SET_MAP("n", "<leader>e", function()
 	vim.diagnostic.open_float({ scope = "line" }, 0)
 end,                                                     "Show Line [E]rrors")
 
-SET_MAP("n", "<leader>lr", ":LspRestart<CR>",            "[L]SP [R]estart")
-SET_MAP("n", "<leader>li", ":LspInfo<CR>",               "[L]SP [I]nfo")
+-- :LspRestart / :LspInfo came from nvim-lspconfig and are gone; use core APIs.
+SET_MAP("n", "<leader>lr", function()
+	local names = {}
+	for _, c in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
+		names[#names + 1] = c.name
+	end
+	if #names == 0 then
+		vim.notify("no LSP clients attached to this buffer", vim.log.levels.WARN)
+		return
+	end
+	vim.lsp.enable(names, false)
+	vim.defer_fn(function()
+		vim.lsp.enable(names)
+		vim.notify("restarted " .. table.concat(names, ", "))
+	end, 500)
+end, "[L]SP [R]estart")
+SET_MAP("n", "<leader>li", ":checkhealth vim.lsp<CR>",   "[L]SP [I]nfo")
 SET_MAP("n", "<leader>lc", ":ConformInfo<CR>",           "[L]SP [C]onformInfo")
 SET_MAP("n", "<leader>ll", ":Lazy<CR>",                  "[L]azy")
 

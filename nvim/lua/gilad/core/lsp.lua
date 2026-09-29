@@ -63,6 +63,37 @@ vim.lsp.config["gopls"] = {
 	},
 }
 
+-- sqls: without a connection it only knows keywords and logs
+-- "no database connection" on every request. It picks the DSN up from
+-- $DATABASE_URL / $DB_URL, else from DATABASE_URL= / DB_URL= in <root>/.env.
+-- Only postgres:// URLs are wired; anything else (e.g. pass://) is ignored.
+-- A project can also ship its own sqls config.yml at the root instead.
+vim.lsp.config["sqls"] = {
+	root_markers = { { "config.yml" }, { ".env", ".git" } },
+	before_init = function(_, config)
+		local dsn = vim.env.DATABASE_URL or vim.env.DB_URL
+		if not dsn and config.root_dir then
+			local f = io.open(config.root_dir .. "/.env")
+			if f then
+				for line in f:lines() do
+					line = line:gsub("^%s*export%s+", "")
+					local k, v = line:match("^%s*([%w_]+)%s*=%s*(.-)%s*$")
+					if (k == "DATABASE_URL" or k == "DB_URL") and v and v ~= "" then
+						dsn = v:gsub('^"(.*)"$', "%1"):gsub("^'(.*)'$", "%1")
+						break
+					end
+				end
+				f:close()
+			end
+		end
+		if dsn and dsn:match("^postgres") then
+			config.settings = vim.tbl_deep_extend("force", config.settings or {}, {
+				sqls = { connections = { { driver = "postgresql", dataSourceName = dsn } } },
+			})
+		end
+	end,
+}
+
 vim.lsp.config["tilt_ls"] = {
 	filetypes = { "starlark" },
 }

@@ -9,7 +9,7 @@ custom-shader = ./shaders/cursor-blaze.glsl
 # custom-shader = ./shaders/retro-terminal.glsl
 # custom-shader = ./shaders/water.glsl
 
-# background-opacity = 0.9
+background-opacity = 0.8
 # background-blur-radius = 10
 
 clipboard-paste-protection = false

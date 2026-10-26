@@ -73,8 +73,6 @@ parse() {
         return 1
     fi
 
-    echo "=== Decoded ==="
-
     # Format with jq if requested
     if $use_jq; then
         echo "$decoded" | jq
@@ -92,6 +90,59 @@ bg() {
       echo "$output" >&2
     fi
   ) & disown
+}
+
+# Rename files to snake_case: "Big - Blob.PDF" => "big_blob.pdf"
+# Folders rename their contents (not recursive), not the folder itself
+# Usage: reformat_name [-n] <files|folders...>   (-n = dry run)
+reformat_name() {
+  setopt local_options extended_glob
+  local dry=false
+  if [[ "$1" == "-n" ]]; then
+    dry=true
+    shift
+  fi
+
+  if [[ $# -eq 0 ]]; then
+    echo "Usage: reformat_name [-n] <files|folders...>"
+    return 1
+  fi
+
+  local f name base ext new
+  local -a targets
+  for f in "${@%/}"; do
+    if [[ -d "$f" ]]; then
+      targets+=("$f"/*(N))
+    else
+      targets+=("$f")
+    fi
+  done
+
+  for f in "${targets[@]}"; do
+    if [[ ! -e "$f" ]]; then
+      echo "Not found: $f" >&2
+      continue
+    fi
+
+    name=${f:t}
+    base=${name:r}
+    ext=${name:e}
+    [[ "$base" == "$name" || -d "$f" ]] && { base=$name; ext=""; }
+
+    # Collapse any run of non-alphanumerics (spaces, -, –, commas...) into one _
+    base=${(L)base//[^[:alnum:]]##/_}
+    base=${${base##_##}%%_##}
+    new=$base${ext:+.${(L)ext}}
+
+    [[ "$new" == "$name" ]] && continue
+    if [[ -e "${f:h}/$new" ]]; then
+      echo "Skip (exists): $new" >&2
+      continue
+    fi
+
+    echo "$name -> $new"
+    $dry || command mv -- "$f" "${f:h}/$new"
+  done
 }
 
 _PROMPT_DIR="${0:A:h}/.."

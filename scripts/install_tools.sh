@@ -39,9 +39,6 @@ rm -rf /tmp/SbarLua
 # tmux
 [ -d ~/.tmux/plugins/tpm ] || git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
-# zsh plugins not in homebrew (the rest are in Brewfile)
-[ -d ~/.zsh/plugins/zsh-nvm ] || git clone https://github.com/lukechilds/zsh-nvm ~/.zsh/plugins/zsh-nvm
-
 # graphite
 gt completion --shell zsh > ~/.gt-completion.zsh
 

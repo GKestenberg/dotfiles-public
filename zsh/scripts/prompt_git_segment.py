@@ -4,8 +4,9 @@
 # ///
 """Emit current git branch and a clickable URL.
 
-Output: <prefix>\t<text>\t<url>
+Output: <prefix>\t<text>\t<url>\t<suffix>
 - <prefix> is plain (unlinked) text; <text> gets hyperlinked to <url>.
+- <suffix> is plain text: commits ahead/behind upstream, e.g. " 3↑1↓".
 - main/master  → cached `gh repo view --web` URL (the repo home)
 - other        → cached `gh pr view` URL (the PR for the branch)
 - If the upstream branch name differs from the local one, prefix is
@@ -104,7 +105,19 @@ def main() -> int:
     if cache_path.exists():
         url = cache_path.read_text().strip()
 
-    print(f"{prefix}\t{text}\t{url}")
+    # Commits ahead/behind upstream, e.g. "3↑1↓"; zero counts are omitted.
+    suffix = ""
+    if upstream:
+        counts = run(["git", "rev-list", "--left-right", "--count", "HEAD...@{u}"])
+        if counts:
+            ahead, behind = counts.split()
+            suffix = (f"{ahead}↑" if ahead != "0" else "") + (
+                f"{behind}↓" if behind != "0" else ""
+            )
+            if suffix:
+                suffix = " " + suffix
+
+    print(f"{prefix}\t{text}\t{url}\t{suffix}")
     return 0
 
 

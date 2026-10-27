@@ -19,17 +19,17 @@ _prompt_link() {
   printf '%%{\e]8;;%s\e\\%%}%s%%{\e]8;;\e\\%%}' "$url" "$text"
 }
 
-# Render a tab-separated "<prefix>\t<text>\t<url>" line into a PS1 string.
-# <prefix> is emitted plain; <text> is hyperlinked to <url> when present.
-# Two-field lines ("<text>\t<url>") are handled with an empty prefix.
+# Render a tab-separated "<prefix>\t<text>\t<url>[\t<suffix>]" line into a
+# PS1 string. <prefix> and <suffix> are emitted plain; <text> is hyperlinked
+# to <url> when present. Two-field lines ("<text>\t<url>") have no prefix.
 _prompt_render_segment() {
   local line="$1"
   [[ -z "$line" ]] && return
   local -a parts
   parts=("${(@s:	:)line}")
-  local prefix text url
+  local prefix text url suffix
   if (( ${#parts} >= 3 )); then
-    prefix="${parts[1]}" text="${parts[2]}" url="${parts[3]}"
+    prefix="${parts[1]}" text="${parts[2]}" url="${parts[3]}" suffix="${parts[4]}"
   else
     prefix="" text="${parts[1]}" url="${parts[2]}"
   fi
@@ -40,6 +40,7 @@ _prompt_render_segment() {
   else
     printf '%s' "$text"
   fi
+  printf '%s' "$suffix"
 }
 
 # ──────────────────────────────────────────────────────────────────────────────

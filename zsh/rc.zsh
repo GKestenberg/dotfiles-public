@@ -19,7 +19,7 @@ _source_if_exists "$DOTFILES"/zsh/options.zsh
 _source_if_exists "$DOTFILES"/zsh/fzf.zsh
 _source_if_exists "$DOTFILES"/zsh/fzf-git.sh
 _source_if_exists "$DOTFILES"/zsh/eval.zsh
-_source_if_exists "$DOTFILES"/zsh/omz.zsh
+_source_if_exists "$DOTFILES"/zsh/plugins.zsh
 _source_if_exists "$DOTFILES"/zsh/prompt_theme.zsh
 _source_if_exists "$DOTFILES"/zsh/porter.zsh
 _source_if_exists "$DOTFILES"/zsh/local.zsh

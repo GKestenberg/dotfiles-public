@@ -61,3 +61,21 @@ _create_lazy_alias_completion() {
 _create_lazy_completion docker  
 _create_lazy_completion kubectl
 _create_lazy_alias_completion k kubectl
+
+CACHE=~/.zsh/cache
+mkdir -p $CACHE
+
+# Cache a tool's shell-init output, regenerating only when the file is missing.
+# Usage: _cache_init <name> <command...>
+_cache_init() {
+  local name=$1; shift
+  local file=$CACHE/$name.zsh
+  [[ -f $file ]] || "$@" >$file 2>/dev/null
+  source $file
+}
+
+_cache_init thefuck thefuck --alias
+_cache_init zoxide  zoxide init zsh
+
+
+[ -f "/Users/giladkestenberg/.ghcup/env" ] && . "/Users/giladkestenberg/.ghcup/env" # ghcup-env

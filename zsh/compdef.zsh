@@ -22,12 +22,12 @@ if [[ ! -f $COMPDIR/_gil ]] && command -v gil &>/dev/null; then
     gil completion zsh > $COMPDIR/_gil
 fi
 
-autoload -Uz compinit
-(( $+_comps )) || compinit
-
 if type brew &>/dev/null; then
   FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 fi
+
+autoload -Uz compinit
+(( $+_comps )) || compinit
 
 
 _complete_cmds() {
